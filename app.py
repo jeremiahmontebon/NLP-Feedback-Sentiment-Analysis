@@ -6,12 +6,15 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 import joblib
 
+# Download NLTK resources if not already downloaded
 nltk.download('punkt')
 nltk.download('wordnet')
 
+# Load the trained model and vectorizer
 classifier = joblib.load('sentiment_analysis_model.joblib')
 vectorizer = joblib.load('veectorizer.joblib')
 
+# Preprocess the text data
 def preprocess_text(text):
     lemmatizer = WordNetLemmatizer()
     words = word_tokenize(text.lower())
@@ -40,5 +43,6 @@ def main():
         else:
             st.info("Sentiment: Neutral")
 
+# Execute the main function if script is run directly
 if __name__ == "__main__":
     main()
