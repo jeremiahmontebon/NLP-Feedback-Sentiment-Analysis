@@ -43,6 +43,6 @@ def main():
         else:
             st.info("Sentiment: Neutral")
 
-# Execute the main function if script is run directly
+# Execute the main function if script is run directly #
 if __name__ == "__main__":
     main()
