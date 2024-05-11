@@ -11,8 +11,8 @@ nltk.download('punkt')
 nltk.download('wordnet')
 
 # Load the trained model and vectorizer
-classifier = joblib.load('sentiment_analysis_model.joblib')
-vectorizer = joblib.load('veectorizer.joblib')
+classifier = joblib.load(r'models\sentiment_analysis_model.joblib')
+vectorizer = joblib.load(r'models\vectorizer.joblib')
 
 # Preprocess the text data
 def preprocess_text(text):

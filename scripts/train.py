@@ -8,14 +8,18 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score, classification_report
 import joblib
-
+#
+#
+### Preprocess the text data ###
+#
+#
 # Download NLTK resources if not already downloaded
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
 
 # Load IMDb movie reviews dataset
-imdb_data = pd.read_csv('IMDB Dataset.csv')
+imdb_data = pd.read_csv('data\IMDB Dataset.csv')
 # Assuming the dataset has columns 'review' for text and 'sentiment' for labels
 
 # Data preprocessing
@@ -30,11 +34,19 @@ def preprocess_text(text):
 
 X = imdb_data['review'].apply(preprocess_text)
 y = imdb_data['sentiment']
-
+#
+#
+### Feature engineering using TF-IDF ###
+#
+#
 # Feature extraction using Bag-of-Words
 vectorizer = CountVectorizer()
 X_vectorized = vectorizer.fit_transform(X)
-
+#
+#
+### Train the model using Multinomial Naive Bayes ###
+#
+#
 # Split data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X_vectorized, y, test_size=0.2, random_state=42)
 
@@ -43,15 +55,25 @@ classifier = MultinomialNB()
 classifier.fit(X_train, y_train)
 
 # Export the trained model
-joblib.dump(classifier, 'sentiment_analysis_model.joblib')
-joblib.dump(vectorizer, 'veectorizer.joblib')
-
+joblib.dump(classifier, 'models/sentiment_analysis_model.joblib')
+joblib.dump(vectorizer, 'models/vectorizer.joblib')
+#
+#
+### Hyperparameter tuning and model evaluation ###
+#
+#
 # Make predictions on test data
 y_pred = classifier.predict(X_test)
 
 # Evaluate model performance
 accuracy = accuracy_score(y_test, y_pred)
-print(f"Accuracy: {accuracy:.2f}")
 
+# Save the results to a file
+with open('results.txt', 'w') as f:
+    f.write(f"Accuracy: {accuracy:.2f}\n\nClassification Report:\n")
+    f.write(classification_report(y_test, y_pred))
+
+
+print(f"Accuracy: {accuracy:.2f}")
 print("\nClassification Report:")
 print(classification_report(y_test, y_pred))
